@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Afterlives · A digital literary research studio</title>
+  <meta name="description" content="Afterlives: an AI-assisted research studio for studying how stories change across media, languages, and cultures.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#app">Skip to content</a>
+  <div class="ring-wrap" aria-hidden="true"><div class="ring"></div></div>
+  <header class="top">
+    <a class="brand" href="#/home">AFTERLIVES</a>
+    <nav id="nav" aria-label="Main">
+      <a href="#/home" data-route="home">Home</a>
+      <a href="#/lineage" data-route="lineage">Story Lineage</a>
+      <a href="#/compare" data-route="compare">Comparison Room</a>
+      <a href="#/lens" data-route="lens">Critical Lens</a>
+      <a href="#/ledger" data-route="ledger">Context Ledger</a>
+      <a href="#/notes" data-route="notes">Research Notes</a>
+    </nav>
+  </header>
+  <main id="app" tabindex="-1"></main>
+  <footer>
+    <p>Afterlives is a research assistant, not an automated literary critic. The researcher owns the interpretation.</p>
+    <p class="small">Prototype · Literature and New Media · Demo data only</p>
+    <div class="band" aria-hidden="true"></div>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

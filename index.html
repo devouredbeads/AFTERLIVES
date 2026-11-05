@@ -8,7 +8,145 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <style>
+:root{
+  --paper:#F4EEE0; --ink:#1E1E24; --burgundy:#7A2E3A; --teal:#2E7D7A; --marigold:#D99A2B;
+  --sand:#E6DDC8; --gold:#C9A66B; --indigo:#2F4A5E; --muted:#6B665A; --white:#FFFDF8;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif; --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --radius:10px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--sans);position:relative;overflow-x:hidden}
+.skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--paper);padding:.5rem 1rem;z-index:10}
+.skip:focus{left:0}
+.ring-wrap{position:absolute;top:0;left:0;right:0;height:260px;overflow:hidden;pointer-events:none}
+.ring{position:absolute;right:-90px;top:-110px;width:300px;height:300px;border:26px solid var(--sand);border-radius:50%;opacity:.7}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0 0 .5rem}
+h1{font-size:clamp(2.4rem,6vw,4rem)} h2{font-size:1.55rem} h3{font-size:1.1rem}
+p{margin:0 0 .8rem}
+a{color:var(--burgundy)}
+:focus-visible{outline:3px solid var(--marigold);outline-offset:2px}
+.top{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 2rem;padding:1.1rem clamp(1rem,4vw,3rem);border-bottom:1px solid var(--sand);z-index:2}
+.brand{font-family:var(--serif);font-weight:600;letter-spacing:.28em;font-size:1.05rem;color:var(--ink);text-decoration:none}
+nav{display:flex;flex-wrap:wrap;gap:.25rem}
+nav a{color:var(--ink);text-decoration:none;font-size:.9rem;padding:.4rem .75rem;border-radius:999px;border:1px solid transparent}
+nav a:hover{background:var(--sand)}
+nav a[aria-current="page"]{background:var(--burgundy);color:var(--paper)}
+main{position:relative;max-width:1100px;margin:0 auto;padding:2rem clamp(1rem,4vw,2rem) 3rem;z-index:1;min-height:60vh}
+main:focus{outline:none}
+.eyebrow{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--burgundy);font-weight:600;margin-bottom:.4rem}
+.lede{font-size:1.15rem;max-width:44ch;color:var(--muted)}
+.page-head{margin-bottom:1.5rem}
+.page-head p{max-width:68ch;color:var(--muted)}
+.hero{padding:2.5rem 0 2rem}
+.hero h1{font-style:italic;font-weight:400;max-width:12ch}
+.grid3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:1rem}
+.grid2{display:grid;grid-template-columns:1.6fr 1fr;gap:1.25rem;align-items:start}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.four{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem}
+.card{background:var(--white);border:1px solid var(--sand);border-radius:var(--radius);padding:1.25rem;display:block;color:inherit;text-decoration:none}
+a.card:hover{border-color:var(--burgundy);transform:translateY(-2px);transition:.15s}
+.card.feature{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.card.feature .eyebrow{color:var(--gold)}
+.card.feature p{color:#D9D2C0}
+.btn{display:inline-block;background:var(--burgundy);color:var(--paper);border:0;border-radius:999px;padding:.55rem 1.1rem;font:600 .9rem var(--sans);cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.12)}
+.btn.ghost{background:transparent;color:var(--burgundy);border:1px solid var(--burgundy)}
+.btn.small{padding:.35rem .8rem;font-size:.8rem}
+.btn.teal{background:var(--teal)} .btn.gold{background:var(--marigold);color:var(--ink)} .btn.gray{background:#8A8578}
+.tile{background:var(--sand);border-radius:var(--radius);padding:1rem;text-decoration:none;color:var(--ink);display:block;border-top:4px solid var(--burgundy)}
+.tile:nth-child(2){border-color:var(--teal)} .tile:nth-child(3){border-color:var(--marigold)} .tile:nth-child(4){border-color:var(--indigo)}
+.tile h3{margin-bottom:.2rem} .tile p{font-size:.9rem;color:var(--muted);margin:0}
+.demo-note{margin-top:2rem;padding:.8rem 1rem;border-left:4px solid var(--marigold);background:var(--white);font-size:.9rem;color:var(--muted)}
+.pill{display:inline-block;font-size:.72rem;font-weight:600;padding:.15rem .6rem;border-radius:999px;color:var(--paper);letter-spacing:.02em;white-space:nowrap}
+.pill.verified{background:var(--teal)} .pill.interpretation{background:var(--marigold);color:var(--ink)}
+.pill.missing{background:#8A8578} .pill.ai{background:var(--burgundy)}
+.pill.e-doc{background:var(--burgundy)} .pill.e-stated{background:var(--teal)} .pill.e-theme{background:#8A8578}
+.pill.accepted{background:var(--teal)} .pill.revised{background:var(--marigold);color:var(--ink)} .pill.rejected{background:#8A8578}
+.controls{display:flex;flex-wrap:wrap;gap:1rem;align-items:end;margin-bottom:1.25rem}
+label{font-size:.8rem;font-weight:600;color:var(--muted);display:block}
+select,textarea{font:inherit;width:100%;border:1px solid #CFC5AE;border-radius:8px;background:var(--white);padding:.5rem .7rem;color:var(--ink)}
+textarea{min-height:5rem;resize:vertical;font-size:.92rem}
+select{min-width:14rem}
+.check{display:flex;gap:.5rem;align-items:center;font-size:.9rem;color:var(--ink);font-weight:500}
+.check input{width:auto;accent-color:var(--burgundy)}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;font-size:.8rem;color:var(--muted);margin-top:.75rem}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+.swatch{width:26px;height:0;border-top:3px solid}
+.swatch.doc{border-color:var(--burgundy)} .swatch.stated{border-color:var(--teal);border-top-style:dashed} .swatch.theme{border-color:#8A8578;border-top-style:dotted}
+svg{width:100%;height:auto;display:block}
+.node rect{fill:var(--white);stroke:var(--ink);stroke-width:1.5}
+.node:hover rect,.node.sel rect{fill:var(--sand);stroke:var(--burgundy);stroke-width:2.5}
+.node{cursor:pointer}
+.node .n-title{font:600 19px var(--serif);fill:var(--ink)}
+.node .n-sub{font:400 13px var(--sans);fill:var(--muted)}
+.edge .line{fill:none;stroke-width:2.5}
+.edge.e-doc .line{stroke:var(--burgundy)} .edge.e-stated .line{stroke:var(--teal);stroke-dasharray:8 5} .edge.e-theme .line{stroke:#8A8578;stroke-dasharray:2 5;stroke-linecap:round}
+.edge .hit{fill:none;stroke:transparent;stroke-width:16;cursor:pointer}
+.edge.sel .line{stroke-width:4.5}
+.edge text{font:600 13px var(--sans);fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:6px;stroke-linejoin:round;text-anchor:middle}
+.conn{list-style:none;margin:1rem 0 0;padding:0;display:grid;gap:.6rem}
+.conn li{background:var(--paper);border-radius:8px;padding:.6rem .8rem;font-size:.9rem;cursor:pointer;border:1px solid transparent}
+.conn li.sel{border-color:var(--burgundy)}
+.conn .rel{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:.2rem;font-weight:600}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:.2rem .9rem;font-size:.9rem;margin:.8rem 0}
+.meta dt{color:var(--muted);font-weight:600} .meta dd{margin:0}
+.note-small{font-size:.85rem;color:var(--muted)}
+.topic{margin-bottom:1.5rem}
+.topic>h2{border-bottom:2px solid var(--burgundy);display:inline-block;padding-bottom:.1rem;margin-bottom:.7rem}
+.passage{background:var(--white);border:1px solid var(--sand);border-radius:var(--radius);padding:1rem 1.1rem}
+.passage .who{display:flex;justify-content:space-between;gap:.5rem;font-size:.78rem;font-weight:600;color:var(--burgundy);letter-spacing:.04em;text-transform:uppercase;margin-bottom:.4rem}
+.passage p{font-family:var(--serif);font-size:1.08rem;margin:0}
+mark{background:rgba(217,154,43,.38);color:inherit;border-radius:3px;padding:0 .1em}
+.relbox{background:var(--white);border:1px solid var(--sand);border-left:4px solid var(--burgundy);border-radius:8px;padding:.7rem 1rem;margin-bottom:1.25rem;font-size:.92rem}
+.annot{margin-top:.6rem}
+.sugg{background:var(--white);border:1px solid var(--sand);border-left:5px solid var(--burgundy);border-radius:var(--radius);padding:1.1rem 1.25rem;margin-bottom:1rem}
+.sugg.accepted{border-left-color:var(--teal)} .sugg.revised{border-left-color:var(--marigold)} .sugg.rejected{opacity:.7;border-left-color:#8A8578}
+.tagrow{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.6rem;font-size:.82rem;color:var(--muted)}
+.sugg h3{font-family:var(--sans);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:.7rem 0 .15rem}
+.sugg .q{font-family:var(--serif);font-size:1.15rem;font-style:italic}
+details{margin:.6rem 0}
+summary{cursor:pointer;font-size:.88rem;font-weight:600;color:var(--burgundy)}
+blockquote{margin:.5rem 0;padding:.5rem .9rem;border-left:3px solid var(--gold);background:var(--paper);font-family:var(--serif);font-size:1rem}
+blockquote cite{display:block;font:600 .72rem var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.15rem;font-style:normal}
+.actions{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0}
+.tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.tab{border:1px solid #CFC5AE;background:var(--white);border-radius:999px;padding:.4rem .9rem;font:500 .88rem var(--sans);cursor:pointer;color:var(--ink)}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--sand);border-radius:var(--radius);overflow:hidden}
+th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--sand);vertical-align:top;font-size:.92rem}
+th{background:var(--ink);color:var(--paper);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+td:first-child{font-weight:600;width:26%}
+.scroll{overflow-x:auto}
+.empty{padding:1.2rem;background:var(--white);border:1px dashed #CFC5AE;border-radius:var(--radius);color:var(--muted)}
+.nlist{list-style:none;padding:0;margin:0;display:grid;gap:.8rem}
+.nlist li{background:var(--white);border:1px solid var(--sand);border-radius:var(--radius);padding:.9rem 1.1rem}
+.lbl{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;display:block;margin-top:.5rem}
+footer{position:relative;text-align:center;color:var(--muted);padding:2rem 1rem 0;font-size:.9rem}
+footer .small{font-size:.78rem}
+.band{height:16px;margin-top:1.5rem;background:linear-gradient(135deg,var(--sand) 25%,transparent 25%) -8px 0,linear-gradient(225deg,var(--sand) 25%,transparent 25%) -8px 0;background-size:16px 16px;background-color:transparent}
+@media (max-width:860px){
+  .grid3,.grid2,.cols2,.four{grid-template-columns:1fr}
+  .ring{width:200px;height:200px;right:-70px;top:-80px;border-width:18px}
+  select{min-width:0}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} a.card:hover{transform:none}}
+
+.howto{background:var(--white);border:1px solid var(--sand);border-left:4px solid var(--teal);border-radius:8px;padding:.7rem 1rem;margin-bottom:1.25rem;font-size:.95rem}
+.nextrow{margin-top:1.5rem;text-align:right}
+.start{margin-bottom:1rem;border-top:4px solid var(--burgundy)}
+.steps{list-style:none;counter-reset:s;margin:1rem 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+.steps li{counter-increment:s}
+.steps a{display:block;height:100%;background:var(--sand);border-radius:var(--radius);padding:.9rem 1rem;color:var(--ink);text-decoration:none;border-top:4px solid var(--burgundy)}
+.steps li:nth-child(2) a{border-color:var(--teal)} .steps li:nth-child(3) a{border-color:var(--marigold)} .steps li:nth-child(4) a{border-color:var(--indigo)}
+.steps a:hover{filter:brightness(.97)}
+.steps a::before{content:counter(s);display:inline-block;width:1.6rem;height:1.6rem;line-height:1.6rem;text-align:center;border-radius:50%;background:var(--ink);color:var(--paper);font-weight:600;font-size:.85rem;margin-bottom:.4rem}
+.steps b{display:block;font-family:var(--serif);font-size:1.1rem}
+.steps span{display:block;font-size:.88rem;color:var(--muted)}
+@media (max-width:860px){.steps{grid-template-columns:1fr}}
+
+</style>
 </head>
 <body>
   <a class="skip" href="#app">Skip to content</a>
@@ -30,7 +168,443 @@
     <p class="small">Prototype · Literature and New Media · Demo data only</p>
     <div class="band" aria-hidden="true"></div>
   </footer>
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script>
+/* AFTERLIVES demo collection.
+   The story, versions, passages, and "AI suggestions" below are INVENTED for this prototype.
+   Replace this file with your own verified case study (see README.md for the schema). */
+window.AFTERLIVES_DATA = {
+  collection: {
+    title: "Stories in Motion",
+    subtitle: "Traditional narratives · Online fiction · Screen adaptations",
+    note: "The story and every version are invented, so the prototype makes no claims about real works."
+  },
+  work: { title: "The Lantern Keeper’s Daughter" },
+  topics: [
+    { id: "opening", label: "Opening" },
+    { id: "protagonist", label: "Protagonist" },
+    { id: "conflict", label: "Resolving the conflict" },
+    { id: "ending", label: "Ending" },
+    { id: "culture", label: "Cultural references" }
+  ],
+  versions: [
+    { id: "v1", short: "Traditional tale", title: "The Lantern Keeper’s Daughter", medium: "Written-down folk tale", year: "Undated", lang: "English (demo)",
+      summary: "A quiet daughter waits while a heron rescues the harbor’s light; she is rewarded with marriage." },
+    { id: "v2", short: "Online novel", title: "The Lantern Keeper’s Daughter (serial)", medium: "Serialized online novel, 40 chapters", year: "2021 (demo)", lang: "English (demo)",
+      summary: "The daughter climbs the tower herself, bargains with the river spirit, and declines marriage to become keeper." },
+    { id: "v3", short: "Vertical drama", title: "Lantern Girl", medium: "Vertical short drama, 60 episodes", year: "2024 (demo)", lang: "English, dubbed (demo)",
+      summary: "A fast, romance-driven retelling of about 90 seconds per episode that ends on a cliffhanger." }
+  ],
+  edges: [
+    { from: "v1", to: "v2", type: "documented adaptation",
+      evidence: "The author’s note in chapter 1 states that the novel retells the folk tale. (Demo evidence)" },
+    { from: "v2", to: "v3", type: "documented adaptation",
+      evidence: "The drama’s credits list the novel as source material. (Demo evidence)" },
+    { from: "v1", to: "v3", type: "stated inspiration",
+      evidence: "Promotional copy calls the series “inspired by an old river tale,” without naming the tale. (Demo evidence)" }
+  ],
+  passages: {
+    v1: {
+      opening: "In a village where the river meets the sea, an old lantern keeper lit a lamp each dusk so the fishing boats could find the harbor. His daughter Ilan carried the oil and said nothing.",
+      protagonist: "Ilan was obedient and quiet. She waited by the window while others decided what should be done, and the villagers praised her patience.",
+      conflict: "When the old man fell ill, the lamp went dark and the boats were lost in fog. Ilan wept and prayed at the water’s edge until a heron, the river’s messenger, carried a spark to the tower.",
+      ending: "The boats returned. The grateful boatman asked for Ilan’s hand, and the village celebrated. Her father kept the lamp until the end of his days.",
+      culture: "The tale closes with a proverb: patience is the lamp that never goes out. The heron is honored each year at the harvest festival."
+    },
+    v2: {
+      opening: "Ilan has trimmed the wicks since she was nine. When her father coughs through another dusk, she takes the taper from his hand and climbs the tower herself, counting the steps aloud to keep from shaking.",
+      protagonist: "Ilan is stubborn and sharp-tongued. She argues with the elders, keeps the tower’s account book, and decides what the village is told about her father’s illness.",
+      conflict: "The fog comes early and the lamp oil is spoiled. Ilan rows out to the river spirit’s shoal and bargains: three years of her evenings in exchange for clear water. She keeps the bargain on her own terms.",
+      ending: "The boatman proposes in the final chapter. Ilan declines and names herself keeper. The last line shows her lighting the lamp alone, the harbor full of lit windows.",
+      culture: "The heron stays, but as a negotiator rather than a rescuer. The harvest festival becomes a market scene where a street vendor questions the proverb about patience."
+    },
+    v3: {
+      opening: "Episode 1 opens the moment the lamp goes out: a close-up of Ilan’s face, fog, a boat’s horn. Her father collapses while a stranger on the shore watches.",
+      protagonist: "Ilan is resourceful, but her choices revolve around two men who compete for her: the boatman and a wealthy lamp merchant. Her fear is shown in repeated close-ups.",
+      conflict: "She lights the lamp, but a rival cuts the oil supply. The boatman arrives in the last minute of episode 58 and rows her to safety as the lamp flares.",
+      ending: "Episode 60 ends on a cliffhanger: the merchant’s ledger reveals the lamp was never her father’s to keep. A caption reads, Season 2 coming soon.",
+      culture: "The heron becomes a pendant the boatman gives Ilan. The proverb is spoken once in voiceover and then dropped. The harvest festival is replaced by a wedding scene."
+    }
+  },
+  ledger: {
+    v1: [
+      { field: "Creator", value: "Unknown (oral tradition)", status: "missing" },
+      { field: "Source", value: "Demo retelling written for this prototype", status: "verified" },
+      { field: "Date", value: "Undated", status: "missing" },
+      { field: "Language", value: "English (demo)", status: "verified" },
+      { field: "Medium", value: "Written-down folk tale", status: "verified" },
+      { field: "Translator or adaptation credits", value: "None recorded", status: "missing" },
+      { field: "Context note", value: "The tale seems to teach patience as a virtue, which may reflect the values of the community that told it.", status: "interpretation" }
+    ],
+    v2: [
+      { field: "Creator", value: "Invented author (demo)", status: "verified" },
+      { field: "Source", value: "Serialized online novel, 40 chapters (demo)", status: "verified" },
+      { field: "Date", value: "Serialized 2021 (demo)", status: "verified" },
+      { field: "Language", value: "English (demo)", status: "verified" },
+      { field: "Medium", value: "Online serial", status: "verified" },
+      { field: "Translator or adaptation credits", value: "Author’s note names the folk tale as source", status: "verified" },
+      { field: "Context note", value: "Serial publication may reward chapter-ending hooks and a more active protagonist.", status: "ai" }
+    ],
+    v3: [
+      { field: "Creator", value: "Invented studio (demo)", status: "verified" },
+      { field: "Source", value: "Vertical short drama, 60 episodes of about 90 seconds (demo)", status: "verified" },
+      { field: "Date", value: "Released 2024 (demo)", status: "verified" },
+      { field: "Language", value: "English, dubbed (demo)", status: "verified" },
+      { field: "Translator or adaptation credits", value: "Credits list the novel as source material", status: "verified" },
+      { field: "Dubbing and localization credits", value: "Dubbing translator not credited", status: "missing" },
+      { field: "Context note", value: "The romantic triangle may be aimed at a wider romance audience.", status: "interpretation" },
+      { field: "Context note", value: "Very short episodes may favor fast pacing and a cliffhanger ending.", status: "ai" }
+    ]
+  },
+  suggestions: [
+    { id: "s1", pair: ["v1", "v2"], topic: "protagonist",
+      observation: "In the traditional tale Ilan waits and prays. In the novel she climbs the tower, argues with the elders, and keeps the account book.",
+      question: "Does this added agency change how the narrative treats gender and authority? Is it tied to the novel’s serial format, its readers, or the author’s own choices?",
+      passages: [{ v: "v1", t: "protagonist" }, { v: "v2", t: "protagonist" }, { v: "v2", t: "opening" }] },
+    { id: "s2", pair: ["v1", "v2"], topic: "conflict",
+      observation: "The tale’s rescue comes from outside, through the heron. In the novel Ilan rows out and bargains with the river spirit.",
+      question: "What does it mean that the solution moves from divine help to negotiation? What would the author’s note or reader comments say about that choice?",
+      passages: [{ v: "v1", t: "conflict" }, { v: "v2", t: "conflict" }] },
+    { id: "s3", pair: ["v2", "v3"], topic: "ending",
+      observation: "The novel ends with Ilan declining marriage and naming herself keeper. The drama ends on a cliffhanger that returns to a romantic plot and a new threat.",
+      question: "Is the cliffhanger a convention of short-form serial drama, or a sign of different values about her independence? What production or reception evidence could test each explanation?",
+      passages: [{ v: "v2", t: "ending" }, { v: "v3", t: "ending" }, { v: "v3", t: "protagonist" }] },
+    { id: "s4", pair: ["v1", "v3"], topic: "culture",
+      observation: "The proverb about patience closes the tale. In the drama it is spoken once in voiceover and then dropped.",
+      question: "What is lost when a proverb that organizes the tale’s moral becomes a single line? Does adapting for a wider audience explain it, or is something else at work?",
+      passages: [{ v: "v1", t: "culture" }, { v: "v3", t: "culture" }] },
+    { id: "s5", pair: ["v2", "v3"], topic: "protagonist",
+      observation: "The drama frames Ilan’s choices around two suitors, while the novel frames them around the tower and the village.",
+      question: "Does the shift to a romantic triangle reflect the intended audience, the platform’s genre conventions, or the creators’ decisions?",
+      passages: [{ v: "v2", t: "protagonist" }, { v: "v3", t: "protagonist" }] }
+  ]
+};
+
+</script>
+  <script>
+/* AFTERLIVES — a static, build-free research prototype.
+   Reads window.AFTERLIVES_DATA (data.js). Notes are saved in the browser's localStorage. */
+(function () {
+  'use strict';
+  var D = window.AFTERLIVES_DATA;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  };
+  var store = {
+    get: function (k, def) { try { var v = localStorage.getItem('afterlives:' + k); return v ? JSON.parse(v) : def; } catch (e) { return def; } },
+    set: function (k, v) { try { localStorage.setItem('afterlives:' + k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } }
+  };
+
+  var V = {}; D.versions.forEach(function (v) { V[v.id] = v; });
+  var TOPIC = {}; D.topics.forEach(function (t) { TOPIC[t.id] = t; });
+  var STATUS = { verified: 'Verified fact', interpretation: 'Interpretation', missing: 'Missing information', ai: 'AI-generated' };
+  var REL = { 'documented adaptation': 'e-doc', 'stated inspiration': 'e-stated', 'thematic parallel': 'e-theme' };
+
+  var S = {
+    node: D.versions[0].id, edge: null,
+    A: D.versions[0].id, B: D.versions[D.versions.length - 1].id, diff: true,
+    ledger: D.versions[0].id, filter: 'all', pair: 'all',
+    ann: store.get('ann', {}), lens: store.get('lens', {})
+  };
+
+  var pill = function (cls, t) { return '<span class="pill ' + cls + '">' + esc(t) + '</span>'; };
+  var vs = function (id) { return esc(V[id].short); };
+  var pairKey = function (a, b) { return [a, b].sort().join('|'); };
+  var edgeBetween = function (a, b) {
+    return D.edges.filter(function (e) { return (e.from === a && e.to === b) || (e.from === b && e.to === a); })[0];
+  };
+  var relCls = function (t) { return REL[t] || 'e-theme'; };
+
+  /* ---------- word-level "potential differences" (content words missing from the other passage) ---------- */
+  var STOP = new Set(('the a an and of to in on at for with by from as is was were be been it its his her their he she they them that this these those but or so than then when while which who whom whose into out up down over under after before until during about against between through again once here there all any both each few more most other some such nor not only own same too very can will just should now until').split(' '));
+  function contentSet(t) {
+    var set = new Set(); (t.toLowerCase().match(/[a-z’']+/g) || []).forEach(function (w) { if (w.length > 3 && !STOP.has(w)) set.add(w); }); return set;
+  }
+  function highlight(text, other) {
+    return text.split(/([A-Za-z’']+)/).map(function (p, i) {
+      if (i % 2 === 0) return esc(p);
+      var k = p.toLowerCase();
+      return (k.length > 3 && !STOP.has(k) && !other.has(k)) ? '<mark>' + esc(p) + '</mark>' : esc(p);
+    }).join('');
+  }
+
+  var howto = function (t) { return '<div class="howto"><strong>What to do here:</strong> ' + t + '</div>'; };
+  var nextBtn = function (href, label) { return '<div class="nextrow"><a class="btn" href="' + href + '">' + label + ' →</a></div>'; };
+
+  /* ---------- views ---------- */
+  function viewHome() {
+    var c = D.collection;
+    return '<section class="hero"><p class="eyebrow">A digital literary research studio</p>' +
+      '<h1>Every story leaves traces.</h1>' +
+      '<p class="lede">Explore how narratives change across languages, cultures, and media.</p></section>' +
+      '<section class="card start"><p class="eyebrow">Start here</p><h2>Try a sample research journey in 4 steps</h2>' +
+      '<p>Afterlives helps you study how one story changes when it becomes a novel or a short drama. This demo uses an invented story with three versions.</p>' +
+      '<ol class="steps">' +
+      '<li><a href="#/lineage"><b>See the versions</b><span>Look at how the three versions are connected.</span></a></li>' +
+      '<li><a href="#/compare"><b>Compare two of them</b><span>Read them side by side and note what changed.</span></a></li>' +
+      '<li><a href="#/lens"><b>Ask questions</b><span>Review suggested questions: accept, change, or reject them.</span></a></li>' +
+      '<li><a href="#/notes"><b>Save your findings</b><span>See everything you wrote in one place.</span></a></li></ol>' +
+      '<a class="btn" href="#/lineage">Start step 1</a></section>' +
+      '<section class="grid3">' +
+      '<a class="card feature" href="#/lineage"><p class="eyebrow">Featured research collection</p><h2>' + esc(c.title) + '</h2><p>' + esc(c.subtitle) + '</p><span class="btn">Explore story lineages</span></a>' +
+      '<a class="card" href="#/compare"><h2>Compare versions</h2><p>Examine changes side by side.</p></a>' +
+      '<a class="card" href="#/notes"><h2>Research notes</h2><p>Save evidence and interpretations.</p></a></section>' +
+      '<section class="four" aria-label="Core features">' +
+      '<a class="tile" href="#/lineage"><h3>Story Lineage</h3><p>Trace a story’s documented versions.</p></a>' +
+      '<a class="tile" href="#/compare"><h3>Comparison Room</h3><p>Examine what changed.</p></a>' +
+      '<a class="tile" href="#/lens"><h3>Critical Lens</h3><p>Turn differences into research questions.</p></a>' +
+      '<a class="tile" href="#/ledger"><h3>Context Ledger</h3><p>Record what is known and what remains uncertain.</p></a></section>' +
+      '<p class="demo-note"><strong>Demo collection.</strong> ' + esc(c.note) + ' Replace <code>data.js</code> with a verified case study to use Afterlives for real research.</p>';
+  }
+
+  function layout() {
+    var depth = {}, inc = {};
+    D.edges.forEach(function (e) { (inc[e.to] = inc[e.to] || []).push(e.from); });
+    function d(id) {
+      if (depth[id] !== undefined) return depth[id];
+      depth[id] = 0; // guards against cycles
+      var ins = inc[id] || [];
+      depth[id] = ins.length ? Math.max.apply(null, ins.map(d)) + 1 : 0;
+      return depth[id];
+    }
+    D.versions.forEach(function (v) { d(v.id); });
+    var maxD = Math.max.apply(null, Object.keys(depth).map(function (k) { return depth[k]; }).concat([1]));
+    var cols = {}; D.versions.forEach(function (v) { (cols[depth[v.id]] = cols[depth[v.id]] || []).push(v.id); });
+    var W = 900, nw = 170, pos = {};
+    Object.keys(cols).forEach(function (dd) {
+      var ids = cols[dd];
+      ids.forEach(function (id, i) {
+        pos[id] = { x: 30 + dd * ((W - 60 - nw) / maxD), cy: ids.length === 1 ? 210 : 140 + i * (140 / (ids.length - 1)), d: +dd };
+      });
+    });
+    return pos;
+  }
+
+  function viewLineage() {
+    var pos = layout(), nw = 170, nh = 84;
+    var edges = D.edges.map(function (e, i) {
+      var a = pos[e.from], b = pos[e.to], x1 = a.x + nw, y1 = a.cy, x2 = b.x, y2 = b.cy, path, lx, ly;
+      if (b.d - a.d > 1) {
+        path = 'M' + x1 + ',' + y1 + ' C' + (x1 + 70) + ',' + (y1 - 140) + ' ' + (x2 - 70) + ',' + (y2 - 140) + ' ' + x2 + ',' + y2;
+        lx = (x1 + x2) / 2; ly = (y1 + y2) / 2 - 108;
+      } else {
+        var mx = x1 + (x2 - x1) / 2;
+        path = 'M' + x1 + ',' + y1 + ' C' + mx + ',' + y1 + ' ' + mx + ',' + y2 + ' ' + x2 + ',' + y2;
+        lx = mx; ly = (y1 + y2) / 2 - 12;
+      }
+      var cls = relCls(e.type), marker = cls === 'e-doc' ? 'arrDoc' : cls === 'e-stated' ? 'arrStated' : 'arrTheme';
+      return '<g class="edge ' + cls + (S.edge === i ? ' sel' : '') + '">' +
+        '<path class="line" d="' + path + '" marker-end="url(#' + marker + ')"/>' +
+        '<path class="hit" d="' + path + '" data-edge="' + i + '"><title>' + esc(e.type) + '</title></path>' +
+        '<text x="' + lx + '" y="' + ly + '">' + esc(e.type) + '</text></g>';
+    }).join('');
+    var nodes = D.versions.map(function (v) {
+      var p = pos[v.id];
+      return '<g class="node' + (S.edge === null && S.node === v.id ? ' sel' : '') + '" data-node="' + v.id + '" tabindex="0" role="button" aria-label="' + esc(v.short) + '">' +
+        '<rect x="' + p.x + '" y="' + (p.cy - nh / 2) + '" width="' + nw + '" height="' + nh + '" rx="10"/>' +
+        '<text class="n-title" x="' + (p.x + 14) + '" y="' + (p.cy - 4) + '">' + esc(v.short) + '</text>' +
+        '<text class="n-sub" x="' + (p.x + 14) + '" y="' + (p.cy + 18) + '">' + esc(v.year) + '</text></g>';
+    }).join('');
+    var svg = '<svg viewBox="0 0 900 340" role="group" aria-label="Story lineage tree"><defs>' +
+      '<marker id="arrDoc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7A2E3A"/></marker>' +
+      '<marker id="arrStated" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2E7D7A"/></marker>' +
+      '<marker id="arrTheme" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8A8578"/></marker></defs>' +
+      edges + nodes + '</svg>';
+    var conn = '<ul class="conn">' + D.edges.map(function (e, i) {
+      return '<li data-edge="' + i + '" class="' + (S.edge === i ? 'sel' : '') + '"><div class="rel">' + pill(relCls(e.type), e.type) + '<span>' + vs(e.from) + ' → ' + vs(e.to) + '</span></div>' + esc(e.evidence) + '</li>';
+    }).join('') + '</ul>';
+    var side;
+    if (S.edge !== null && D.edges[S.edge]) {
+      var e = D.edges[S.edge];
+      side = '<p class="eyebrow">Connection</p><h2>' + vs(e.from) + ' → ' + vs(e.to) + '</h2><p>' + pill(relCls(e.type), e.type) + '</p>' +
+        '<h3>Evidence</h3><p>' + esc(e.evidence) + '</p>' +
+        '<p class="note-small">A connection is labeled by its evidence. Similarity alone does not establish that one work influenced another.</p>' +
+        '<a class="btn small" href="#/compare" data-compare="' + e.from + '|' + e.to + '">Compare these versions</a>';
+    } else {
+      var v = V[S.node];
+      side = '<p class="eyebrow">Version</p><h2>' + esc(v.title) + '</h2><p>' + esc(v.summary) + '</p>' +
+        '<dl class="meta"><dt>Medium</dt><dd>' + esc(v.medium) + '</dd><dt>Date</dt><dd>' + esc(v.year) + '</dd><dt>Language</dt><dd>' + esc(v.lang) + '</dd></dl>' +
+        '<a class="btn small ghost" href="#/ledger" data-ledger="' + v.id + '">Open in Context Ledger</a>';
+    }
+    return '<div class="page-head"><p class="eyebrow">Feature 1</p><h1>The Story Lineage</h1><p>Trace a story’s documented versions. Select a version or a connection to see what is known about it.</p></div>' +
+      howto('Click a box to read about that version, or click a line (or a card below the tree) to see why two versions are linked.') +
+      '<div class="grid2"><section class="card" aria-label="Lineage tree">' + svg +
+      '<div class="legend"><span><i class="swatch doc"></i>documented adaptation</span><span><i class="swatch stated"></i>stated inspiration</span><span><i class="swatch theme"></i>thematic parallel</span></div>' + conn + '</section>' +
+      '<aside class="card" aria-live="polite">' + side + '</aside></div>' + nextBtn('#/compare', 'Step 2: Compare two versions');
+  }
+
+  function viewCompare() {
+    var A = S.A, B = S.B;
+    var opts = function (sel) { return D.versions.map(function (v) { return '<option value="' + v.id + '"' + (v.id === sel ? ' selected' : '') + '>' + esc(v.short) + '</option>'; }).join(''); };
+    var head = '<div class="page-head"><p class="eyebrow">Feature 2</p><h1>The Comparison Room</h1><p>Examine what changed. Pick two versions and read their passages side by side. Highlights are only potential differences: words that do not appear in the other passage.</p></div>' +
+      howto('Choose two versions below. Read each topic side by side. Highlighted words show where the passages differ. Type what you notice in the box under each topic.') +
+      '<div class="controls"><div><label for="selA">Version A</label><select id="selA">' + opts(A) + '</select></div>' +
+      '<div><label for="selB">Version B</label><select id="selB">' + opts(B) + '</select></div>' +
+      '<label class="check"><input type="checkbox" id="diff"' + (S.diff ? ' checked' : '') + '> Highlight potential differences</label></div>';
+    if (A === B) return head + '<p class="empty">Choose two different versions to compare.</p>';
+    var e = edgeBetween(A, B);
+    var rel = e
+      ? '<div class="relbox">' + pill(relCls(e.type), e.type) + ' <strong>' + vs(e.from) + ' → ' + vs(e.to) + '.</strong> ' + esc(e.evidence) + '</div>'
+      : '<div class="relbox">No documented connection is recorded between these versions. Resemblance alone does not show influence.</div>';
+    var rows = D.topics.map(function (t) {
+      var ta = D.passages[A][t.id], tb = D.passages[B][t.id], key = pairKey(A, B) + '|' + t.id;
+      var ha = S.diff ? highlight(ta, contentSet(tb)) : esc(ta), hb = S.diff ? highlight(tb, contentSet(ta)) : esc(tb);
+      return '<section class="topic"><h2>' + esc(t.label) + '</h2><div class="cols2">' +
+        '<div class="passage"><div class="who"><span>' + vs(A) + '</span><span>' + esc(V[A].year) + '</span></div><p>' + ha + '</p></div>' +
+        '<div class="passage"><div class="who"><span>' + vs(B) + '</span><span>' + esc(V[B].year) + '</span></div><p>' + hb + '</p></div></div>' +
+        '<div class="annot"><label for="ann-' + t.id + '">Your annotation: what changed, and what might explain it? Keep what you observe separate from what you suppose.</label>' +
+        '<textarea id="ann-' + t.id + '" data-ann="' + esc(key) + '">' + esc(S.ann[key] || '') + '</textarea></div></section>';
+    }).join('');
+    return head + rel + rows + nextBtn('#/lens', 'Step 3: Ask questions');
+  }
+
+  function lensCard(s) {
+    var st = S.lens[s.id] || {}, status = st.status || '';
+    var passages = s.passages.map(function (p) {
+      return '<blockquote><cite>' + vs(p.v) + ' · ' + esc(TOPIC[p.t].label) + '</cite>' + esc(D.passages[p.v][p.t]) + '</blockquote>';
+    }).join('');
+    var qbox = status === 'revised'
+      ? '<label for="q-' + s.id + '">Your revised question</label><textarea id="q-' + s.id + '" data-lens-text="' + s.id + '">' + esc(st.text != null ? st.text : s.question) + '</textarea>'
+      : '<p class="q">' + esc(s.question) + '</p>';
+    return '<article class="sugg ' + status + '"><div class="tagrow">' + pill('ai', 'AI suggestion · prepared demo') +
+      '<span>' + vs(s.pair[0]) + ' → ' + vs(s.pair[1]) + ' · ' + esc(TOPIC[s.topic].label) + '</span>' + (status ? pill(status, status === 'accepted' ? 'Accepted as question' : status === 'revised' ? 'Revised' : 'Rejected') : '') + '</div>' +
+      '<h3>What the text shows</h3><p>' + esc(s.observation) + '</p>' +
+      '<h3>A possible question</h3>' + qbox +
+      '<details><summary>Linked passages (' + s.passages.length + ')</summary>' + passages + '</details>' +
+      '<div class="actions"><button class="btn small teal" data-act="accepted" data-id="' + s.id + '">Accept as question</button>' +
+      '<button class="btn small gold" data-act="revised" data-id="' + s.id + '">Revise</button>' +
+      '<button class="btn small gray" data-act="rejected" data-id="' + s.id + '">Reject</button>' +
+      (status ? '<button class="btn small ghost" data-act="" data-id="' + s.id + '">Reset</button>' : '') + '</div>' +
+      '<label for="c-' + s.id + '">Add a competing interpretation</label>' +
+      '<textarea id="c-' + s.id + '" data-comp="' + s.id + '" placeholder="What else could explain this change?">' + esc(st.competing || '') + '</textarea></article>';
+  }
+
+  function viewLens() {
+    var pairs = []; D.suggestions.forEach(function (s) { var k = s.pair.join('|'); if (pairs.indexOf(k) < 0) pairs.push(k); });
+    var opts = '<option value="all">All version pairs</option>' + pairs.map(function (k) {
+      var p = k.split('|'); return '<option value="' + k + '"' + (S.pair === k ? ' selected' : '') + '>' + esc(V[p[0]].short) + ' → ' + esc(V[p[1]].short) + '</option>';
+    }).join('');
+    var list = D.suggestions.filter(function (s) { return S.pair === 'all' || s.pair.join('|') === S.pair; }).map(lensCard).join('');
+    return '<div class="page-head"><p class="eyebrow">Feature 3</p><h1>The Critical Lens</h1><p>Turn differences into research questions. Each suggestion points to the passages that prompted it. You decide what becomes a question: accept it, revise it, reject it, or add a competing interpretation.</p></div>' +
+      howto('Each card is a possible research question, with the text that prompted it. Open “Linked passages” to check it, then press Accept, Revise, or Reject.') +
+      '<p class="demo-note" style="margin-top:0;margin-bottom:1.25rem">These suggestions are prepared examples for the demo collection, not live model output. Always check them against the linked passages.</p>' +
+      '<div class="controls"><div><label for="pair">Show suggestions for</label><select id="pair">' + opts + '</select></div></div>' + list;
+  }
+
+  function viewLedger() {
+    var rows = D.ledger[S.ledger].filter(function (r) { return S.filter === 'all' || r.status === S.filter; });
+    var tabs = '<div class="tabs" role="group" aria-label="Version">' + D.versions.map(function (v) {
+      return '<button class="tab" data-ledger-tab="' + v.id + '" aria-pressed="' + (v.id === S.ledger) + '">' + esc(v.short) + '</button>';
+    }).join('') + '</div>';
+    var chips = '<div class="tabs" role="group" aria-label="Filter by status"><button class="tab" data-filter="all" aria-pressed="' + (S.filter === 'all') + '">All</button>' +
+      Object.keys(STATUS).map(function (k) { return '<button class="tab" data-filter="' + k + '" aria-pressed="' + (S.filter === k) + '">' + STATUS[k] + '</button>'; }).join('') + '</div>';
+    var body = rows.length ? rows.map(function (r) {
+      return '<tr><td>' + esc(r.field) + '</td><td>' + esc(r.value) + '</td><td>' + pill(r.status, STATUS[r.status]) + '</td></tr>';
+    }).join('') : '<tr><td colspan="3">No entries with this status.</td></tr>';
+    return '<div class="page-head"><p class="eyebrow">Feature 4</p><h1>The Context Ledger</h1><p>Record what is known and what remains uncertain. Verified facts, interpretations, missing information, and AI-generated suggestions are kept apart, so plausible speculation is never presented as established literary history.</p></div>' +
+      howto('This is the fact sheet for each version. The colored tags show how sure we are: a verified fact, an interpretation, something missing, or an AI-generated guess.') +
+      tabs + '<div class="card" style="margin-bottom:1rem"><dl class="meta" style="margin:0"><dt>Version</dt><dd>' + esc(V[S.ledger].title) + '</dd><dt>Medium</dt><dd>' + esc(V[S.ledger].medium) + '</dd></dl></div>' + chips +
+      '<div class="scroll"><table><thead><tr><th>Field</th><th>Entry</th><th>Status</th></tr></thead><tbody>' + body + '</tbody></table></div>' + nextBtn('#/notes', 'Go to your notes');
+  }
+
+  function notesData() {
+    var qs = D.suggestions.filter(function (s) { var l = S.lens[s.id]; return l && (l.status === 'accepted' || l.status === 'revised'); });
+    var comps = D.suggestions.filter(function (s) { var l = S.lens[s.id]; return l && l.competing && l.competing.trim(); });
+    var anns = Object.keys(S.ann).filter(function (k) { return S.ann[k] && S.ann[k].trim(); }).map(function (k) {
+      var p = k.split('|'); return { a: p[0], b: p[1], topic: p[2], text: S.ann[k] };
+    }).filter(function (a) { return V[a.a] && V[a.b] && TOPIC[a.topic]; });
+    return { qs: qs, comps: comps, anns: anns };
+  }
+  function qText(s) { var l = S.lens[s.id]; return l && l.status === 'revised' && l.text != null ? l.text : s.question; }
+
+  function viewNotes() {
+    var n = notesData(), none = !n.qs.length && !n.comps.length && !n.anns.length;
+    var q = n.qs.length ? '<ul class="nlist">' + n.qs.map(function (s) {
+      return '<li><span class="lbl" style="margin-top:0">' + vs(s.pair[0]) + ' → ' + vs(s.pair[1]) + ' · ' + esc(TOPIC[s.topic].label) + '</span>' +
+        '<span class="lbl">Observed in the text</span>' + esc(s.observation) + '<span class="lbl">My research question</span><em>' + esc(qText(s)) + '</em></li>';
+    }).join('') + '</ul>' : '<p class="empty">No questions yet. Accept or revise a suggestion in the Critical Lens.</p>';
+    var c = n.comps.length ? '<ul class="nlist">' + n.comps.map(function (s) {
+      return '<li><span class="lbl" style="margin-top:0">' + esc(TOPIC[s.topic].label) + ' · ' + vs(s.pair[0]) + ' → ' + vs(s.pair[1]) + '</span>' + esc(S.lens[s.id].competing) + '</li>';
+    }).join('') + '</ul>' : '<p class="empty">No competing interpretations yet.</p>';
+    var a = n.anns.length ? '<ul class="nlist">' + n.anns.map(function (x) {
+      return '<li><span class="lbl" style="margin-top:0">' + vs(x.a) + ' / ' + vs(x.b) + ' · ' + esc(TOPIC[x.topic].label) + '</span>' + esc(x.text).replace(/\n/g, '<br>') + '</li>';
+    }).join('') + '</ul>' : '<p class="empty">No annotations yet. Write them in the Comparison Room.</p>';
+    return '<div class="page-head"><p class="eyebrow">Research notes</p><h1>Evidence and interpretations</h1><p>Everything you have saved in this browser. Observations come from the text; questions and interpretations are yours.</p></div>' +
+      '<div class="actions"><button class="btn" data-export' + (none ? ' disabled' : '') + '>Download as Markdown</button><button class="btn ghost" data-clear' + (none ? ' disabled' : '') + '>Clear all notes</button></div>' +
+      '<h2>Research questions</h2>' + q + '<h2 style="margin-top:1.5rem">Competing interpretations</h2>' + c + '<h2 style="margin-top:1.5rem">Annotations</h2>' + a;
+  }
+
+  function exportMarkdown() {
+    var n = notesData(), out = ['# Afterlives research notes', '', '_Collection: ' + D.collection.title + ' (' + D.work.title + ')_', ''];
+    out.push('## Research questions', '');
+    n.qs.forEach(function (s) {
+      out.push('- **' + V[s.pair[0]].short + ' → ' + V[s.pair[1]].short + ' · ' + TOPIC[s.topic].label + '**', '  - Observed in the text: ' + s.observation, '  - My research question: ' + qText(s));
+    });
+    out.push('', '## Competing interpretations', '');
+    n.comps.forEach(function (s) { out.push('- **' + TOPIC[s.topic].label + ' · ' + V[s.pair[0]].short + ' → ' + V[s.pair[1]].short + ':** ' + S.lens[s.id].competing); });
+    out.push('', '## Annotations', '');
+    n.anns.forEach(function (x) { out.push('- **' + V[x.a].short + ' / ' + V[x.b].short + ' · ' + TOPIC[x.topic].label + ':** ' + x.text.replace(/\n+/g, ' ')); });
+    var blob = new Blob([out.join('\n') + '\n'], { type: 'text/markdown' });
+    var url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = 'afterlives-notes.md'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 500);
+  }
+
+  /* ---------- router + events ---------- */
+  var ROUTES = { home: viewHome, lineage: viewLineage, compare: viewCompare, lens: viewLens, ledger: viewLedger, notes: viewNotes };
+  var TITLES = { home: 'Home', lineage: 'Story Lineage', compare: 'Comparison Room', lens: 'Critical Lens', ledger: 'Context Ledger', notes: 'Research Notes' };
+  function route() { var r = (location.hash.match(/^#\/(\w+)/) || [])[1]; return ROUTES[r] ? r : 'home'; }
+  function render(keepScroll) {
+    var y = window.scrollY, r = route();
+    $('#app').innerHTML = ROUTES[r]();
+    document.title = (r === 'home' ? '' : TITLES[r] + ' · ') + 'Afterlives';
+    Array.prototype.forEach.call(document.querySelectorAll('#nav a'), function (a) {
+      if (a.getAttribute('data-route') === r) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    window.scrollTo(0, keepScroll ? y : 0);
+  }
+  window.addEventListener('hashchange', function () { render(false); });
+
+  document.addEventListener('click', function (ev) {
+    var t = ev.target, el;
+    if ((el = t.closest('[data-node]'))) { S.node = el.getAttribute('data-node'); S.edge = null; render(true); return; }
+    if ((el = t.closest('[data-edge]'))) { S.edge = +el.getAttribute('data-edge'); render(true); return; }
+    if ((el = t.closest('[data-compare]'))) { var p = el.getAttribute('data-compare').split('|'); S.A = p[0]; S.B = p[1]; return; }
+    if ((el = t.closest('[data-ledger]'))) { S.ledger = el.getAttribute('data-ledger'); return; }
+    if ((el = t.closest('[data-ledger-tab]'))) { S.ledger = el.getAttribute('data-ledger-tab'); render(true); return; }
+    if ((el = t.closest('[data-filter]'))) { S.filter = el.getAttribute('data-filter'); render(true); return; }
+    if ((el = t.closest('[data-act]'))) {
+      var id = el.getAttribute('data-id'), act = el.getAttribute('data-act'), cur = S.lens[id] || {};
+      if (!act) delete S.lens[id]; else S.lens[id] = { status: act, text: cur.text, competing: cur.competing };
+      store.set('lens', S.lens); render(true); return;
+    }
+    if (t.closest('[data-export]')) { exportMarkdown(); return; }
+    if (t.closest('[data-clear]')) {
+      if (confirm('Clear all saved notes, questions, and annotations from this browser?')) { S.ann = {}; S.lens = {}; store.set('ann', S.ann); store.set('lens', S.lens); render(true); }
+    }
+  });
+  document.addEventListener('keydown', function (ev) {
+    if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.matches && ev.target.matches('[data-node]')) { ev.preventDefault(); S.node = ev.target.getAttribute('data-node'); S.edge = null; render(true); var n = $('[data-node="' + S.node + '"]'); if (n) n.focus(); }
+  });
+  document.addEventListener('change', function (ev) {
+    var t = ev.target;
+    if (t.id === 'selA') { S.A = t.value; render(true); }
+    else if (t.id === 'selB') { S.B = t.value; render(true); }
+    else if (t.id === 'diff') { S.diff = t.checked; render(true); }
+    else if (t.id === 'pair') { S.pair = t.value; render(true); }
+  });
+  document.addEventListener('input', function (ev) {
+    var t = ev.target, k;
+    if ((k = t.getAttribute && t.getAttribute('data-ann'))) { S.ann[k] = t.value; store.set('ann', S.ann); }
+    else if ((k = t.getAttribute && t.getAttribute('data-lens-text'))) { S.lens[k] = Object.assign({}, S.lens[k], { text: t.value }); store.set('lens', S.lens); }
+    else if ((k = t.getAttribute && t.getAttribute('data-comp'))) { S.lens[k] = Object.assign({}, S.lens[k], { competing: t.value }); store.set('lens', S.lens); }
+  });
+
+  render(false);
+})();
+
+</script>
 </body>
 </html>
